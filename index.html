@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ic exm01</title>
+</head>
+<body>
+    <h1>exm 1 a</h1>
+    <canvas></canvas>
+
+
+
+
+
+<script>
+    let canvas = document.querySelector("canvas");
+    let ctx = canvas.getContext("2d");
+    
+    canvas.width = 480;
+    canvas.height = 320;
+    let p ={
+        x : 100,
+        vx : 0,
+        ax : 0,
+        y : 100,
+        vy : 0,
+        ay : 0,
+        desenhar :  function(){
+            ctx.fillStyle = "blue";
+            ctx.fillRect(p.x, p.y, 30, 30); 
+        }
+    };
+    let e = {
+        x : 50,
+        vx : 0,
+        ax : 0,
+        y : 50,
+        vy : 0,
+        ay : 0,
+        desenhar : function(){
+            ctx.fillStyle = "white";
+            ctx.fillRect(e.x, e.y, 30, 30);    
+        }
+    }
+
+    const K = 380;
+    let t0;
+    let dt;
+    requestAnimationFrame(desenha)
+    
+    function desenha(t){
+    
+        t0 = t0 ?? t;
+        dt = (t - t0)/1000;
+
+    //Fundo    
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //Controladores
+    e.ay = 0.5*(p.y - e.y) - 0.2*e.vy; 
+    e.ax = 0.5*(p.x - e.x) - 0.2*e.vx;
+
+    //Atualizar estado
+    p.vx = p.vx + p.ax*dt;
+    p.x = p.x + p.vx * dt;
+    p.vy = p.vy + p.ay*dt;
+    p.y = p.y + p.vy * dt;
+
+    e.vx = e.vx + e.ax*dt;
+    e.x = e.x + e.vx * dt;
+    e.vy = e.vy + e.ay*dt;
+    e.y = e.y + e.vy * dt;
+
+    //Elementos
+    p.desenhar()
+    e.desenhar()
+
+    requestAnimationFrame(desenha);
+    t0 = t;
+    }
+    
+    addEventListener("keydown", teclaPressionada);
+    addEventListener("keyup", teclaSolta);
+    function teclaPressionada(event){
+        //Controle de volocidade
+        console.log(event.key);
+        switch (event.key) {
+            case "ArrowUp":
+                p.ay = -K;
+                break;
+            case "ArrowDown":
+                p.ay = +K;
+                break;    
+            case "ArrowRight":
+                p.ax = +K;
+                break;
+            case "ArrowLeft":
+                p.ax = -K;
+                break;    
+            default:
+                break;
+        }
+    } 
+        function teclaSolta(event){
+        //Controle de volocidade
+        console.log(event.key);
+        switch (event.key) {
+            case "ArrowUp":
+                p.vy = 0;p.
+                p.ay = 0;
+                break;
+            case "ArrowDown":
+                p.vy = 0;
+                p.ay = 0;   
+                break;    
+            case "ArrowRight":
+                p.vx = 0;
+                p.ax = 0;
+                break;
+            case "ArrowLeft":
+                p.vx = 0;
+                p.ax = 0;
+                break;    
+            default:
+                break;
+        }
+
+
+    }
+</script>
+</body>
+</html>
